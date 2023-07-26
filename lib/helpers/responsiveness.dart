@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const int largeScreenSize = 1366;
-const int customScreenSize = 110;
+const int customScreenSize = 1110;
 const int mediumScreenSize = 768;
 const int smallScreenSize = 360;
 
