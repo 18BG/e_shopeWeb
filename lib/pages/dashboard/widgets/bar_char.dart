@@ -8,7 +8,7 @@ class SimpleBarChart extends StatelessWidget {
   final List<Series<dynamic, String>> seriesListe;
   final bool animate;
 
-  SimpleBarChart(this.seriesListe, this.seriesList,
+  const SimpleBarChart(this.seriesListe, this.seriesList,
       {super.key, required this.animate});
 
   /// Creates a [BarChart] with sample data and no transition.
@@ -32,17 +32,22 @@ class SimpleBarChart extends StatelessWidget {
   /// Create one series with sample hard coded data.
   static List<charts.Series<OrdinalSales, String>> _createSampleData() {
     final data = [
-      new OrdinalSales('Today', 5),
-      new OrdinalSales('Yesterday', 25),
-      new OrdinalSales('2 days', 100),
-      new OrdinalSales('15 Jul', 75),
-      new OrdinalSales('16 Jul', 175),
-      new OrdinalSales('17 Jul', 275),
-      new OrdinalSales('18 Jul', 5),
+      OrdinalSales('Today', 4560),
+      OrdinalSales('Yesterday', 1785),
+      OrdinalSales('2 days', 1100),
+      OrdinalSales('15 Jul', 2175),
+      OrdinalSales('16 Jul', 2175),
+      OrdinalSales('17 Jul', 1275),
+      OrdinalSales('18 Jul', 1200),
+      OrdinalSales('19 Jul', 5908),
+      OrdinalSales('20 Jul', 5000),
+      OrdinalSales('21 Jul', 576),
+      OrdinalSales('22 Jul', 4500),
+      OrdinalSales('23 Jul', 3560),
     ];
 
     return [
-      new charts.Series<OrdinalSales, String>(
+      charts.Series<OrdinalSales, String>(
         id: 'Sales',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
         domainFn: (OrdinalSales sales, _) => sales.year,

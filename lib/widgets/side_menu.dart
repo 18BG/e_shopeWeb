@@ -1,15 +1,30 @@
+import 'package:e_shopweb/helpers/my_provider.dart';
 import 'package:e_shopweb/routing/routes.dart';
 import 'package:e_shopweb/widgets/custom_text.dart';
 import 'package:e_shopweb/widgets/side_menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/controllers.dart';
 import '../constants/style.dart';
 import '../helpers/responsiveness.dart';
 
-class SideMenu extends StatelessWidget {
+class SideMenu extends StatefulWidget {
   const SideMenu({super.key});
+
+  @override
+  State<SideMenu> createState() => _SideMenuState();
+}
+
+class _SideMenuState extends State<SideMenu> {
+  late GlobalProvider provider;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    provider = Provider.of<GlobalProvider>(context, listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +74,11 @@ class SideMenu extends StatelessWidget {
                 .map((item) => SideMenuItem(
                       itemName: item.name,
                       onTap: () {
-                        print(item.name);
-                        if (item.route == DashboardRoute) {
+                        if (item.route == AuthenticationPageRoute) {
                           menuControllere
                               .changeActiveItemTo(DashboardDisplayName);
-                          Get.offAllNamed(CommandeManagementRoute);
+                          provider.logout();
+                          Get.offAllNamed(AuthenticationPageRoute);
                         }
                         if (!menuControllere.isActive(item.name)) {
                           menuControllere.changeActiveItemTo(item.name);
@@ -71,7 +86,8 @@ class SideMenu extends StatelessWidget {
                             Get.back();
                             //TODO:: go to item name Route
                           }
-                          //navigationController.navigateTo(item.route);
+                          print(item.route);
+                          navController.navTo(item.route);
                         }
                       },
                     ))

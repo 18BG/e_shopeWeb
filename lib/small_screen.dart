@@ -1,4 +1,5 @@
-import 'package:e_shopweb/pages/dashboard/dashboard.dart';
+import 'package:e_shopweb/helpers/local_navigator.dart';
+
 import 'package:flutter/material.dart';
 
 class SmallScreen extends StatelessWidget {
@@ -8,7 +9,7 @@ class SmallScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: DashBoard()),
+        Expanded(child: localNavigator()),
       ],
     );
   }

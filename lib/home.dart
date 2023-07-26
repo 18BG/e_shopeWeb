@@ -5,7 +5,7 @@ import 'package:e_shopweb/widgets/side_menu.dart';
 import 'package:e_shopweb/widgets/top_nav_bar.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
+class HomePage extends StatelessWidget {
   //const Home({super.key});
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   @override

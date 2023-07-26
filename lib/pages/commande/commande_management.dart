@@ -1,3 +1,4 @@
+import 'package:e_shopweb/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class CommandeManagement extends StatelessWidget {
@@ -5,6 +6,12 @@ class CommandeManagement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Center(
+      child: MyText(
+        text: "Commande",
+        size: 30,
+        weight: FontWeight.bold,
+      ),
+    );
   }
 }
