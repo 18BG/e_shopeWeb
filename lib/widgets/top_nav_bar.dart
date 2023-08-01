@@ -93,7 +93,7 @@ AppBar topNavBar(BuildContext context, GlobalKey<ScaffoldState> key) => AppBar(
         ],
       ),
       iconTheme: const IconThemeData(color: Colors.deepOrange),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       leading: !ResponsiveWidget.isSmallScreen(context)
           ? Row(
               children: [

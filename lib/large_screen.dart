@@ -1,4 +1,5 @@
-import 'package:e_shopweb/pages/dashboard/dashboard.dart';
+import 'package:e_shopweb/helpers/local_navigator.dart';
+
 import 'package:e_shopweb/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class LargeScreen extends StatelessWidget {
     return Row(
       children: [
         const Expanded(child: SideMenu()),
-        Expanded(flex: 5, child: DashBoard())
+        Expanded(flex: 5, child: localNavigator())
       ],
     );
   }

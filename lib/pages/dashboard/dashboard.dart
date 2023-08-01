@@ -3,6 +3,7 @@ import 'package:e_shopweb/helpers/responsiveness.dart';
 import 'package:e_shopweb/pages/dashboard/widgets/dashboard_cards_medium.dart';
 import 'package:e_shopweb/pages/dashboard/widgets/dashboard_topcards_large.dart';
 import 'package:e_shopweb/pages/dashboard/widgets/dashboard_topcards_small.dart';
+
 import 'package:e_shopweb/pages/dashboard/widgets/last_orders.dart';
 import 'package:e_shopweb/pages/dashboard/widgets/statistics_section_large.dart';
 import 'package:e_shopweb/pages/dashboard/widgets/statistics_section_small.dart';
@@ -37,6 +38,13 @@ class DashBoard extends StatelessWidget {
         mail: "fma@gmail.com",
         montant: 2700,
         status: "Annulé",
+        date: "14/04/2023"),
+    DataModele(
+        id: 21,
+        name: "Moussa",
+        mail: "fma@gmail.com",
+        montant: 2700,
+        status: "Annulé",
         date: "14/04/2023")
   ];
 
@@ -48,8 +56,8 @@ class DashBoard extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.only(
-                    top: ResponsiveWidget.isCustomScreen(context) ? 56 : 6,
-                  ),
+                      top: ResponsiveWidget.isSmallScreen(context) ? 56 : 6,
+                      left: !ResponsiveWidget.isSmallScreen(context) ? 35 : 0),
                   child: MyText(
                     text: menuControllere.activeItem.value,
                     size: 24,
@@ -74,7 +82,10 @@ class DashBoard extends StatelessWidget {
               const StatisticsSectionSmall()
             else
               const StatisticsSectionLarge(),
-            DataTableExample(myData: data)
+            DataTableExample(myData: data),
+            // AvailableDrivers(
+            //   myData: data,
+            // )
           ],
         ))
       ],
