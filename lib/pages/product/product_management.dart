@@ -23,10 +23,6 @@ class _ProductManagementState extends State<ProductManagement> {
     // TODO: implement initState
     super.initState();
     provider = Provider.of<GlobalProvider>(context, listen: false);
-    if (provider.categoryList.isEmpty) {
-      provider.getClients();
-      provider.getCategoryProvider();
-    }
   }
 
   @override

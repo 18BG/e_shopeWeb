@@ -29,10 +29,16 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  // Appeler getCategoryProvider lorsque l'application démarre
+  void _initializeData(BuildContext context) {
+    Provider.of<GlobalProvider>(context, listen: false).getCategoryProvider();
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _initializeData(context));
     return GetMaterialApp(
       initialRoute: AuthenticationPageRoute,
       getPages: [

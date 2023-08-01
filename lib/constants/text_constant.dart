@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 const appName = "Victoire";
 //Fields Name
+const newProductCollection = "newProduct";
 const productCollection = "Produits";
 const categoriCollection = "Categorie";
 const customer = "Client";

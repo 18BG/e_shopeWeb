@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:e_shopweb/helpers/responsiveness.dart';
+import 'package:e_shopweb/model/new_product_model.dart';
 import 'package:e_shopweb/model/product_model.dart';
 import 'package:e_shopweb/widgets/text_form_field.dart';
 import 'package:flutter/foundation.dart';
@@ -65,7 +66,7 @@ class _AddProductMediumState extends State<AddProductMedium> {
       builder: (context, value, child) {
         List<CategoryModel> categoryListe = value.categoryList;
         return (value.isLoading)
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : ListView(

@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:e_shopweb/helpers/my_provider.dart';
 import 'package:e_shopweb/model/categorie_model.dart';
 import 'package:e_shopweb/widgets/custom_text.dart';

@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'dart:js_util';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shopweb/helpers/responsiveness.dart';
 import 'package:e_shopweb/model/categorie_model.dart';
+import 'package:e_shopweb/model/new_product_model.dart';
 import 'package:e_shopweb/model/user_model.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -38,6 +40,7 @@ class GlobalProvider with ChangeNotifier {
     try {
       await firebase.addCategorie(categoryModel);
       await getCategoryProvider();
+
       notifyListeners();
     } catch (e) {
       print("Erreur  ...  $e");
@@ -45,34 +48,66 @@ class GlobalProvider with ChangeNotifier {
   }
 
   Future<void> getCategoryProvider() async {
-    isProcessing();
+    await isProcessing();
     try {
       var result = await firebase.getCategorieAndProduc();
       categoryList = result;
+      List<NewProductModel> newProduit;
+      List<NewProductModel> newProduits = [];
+      for (var i in categoryList) {
+        newProduit = i.listNewProduct!;
+        for (var index in newProduit) {
+          print(index.dateAjout.toIso8601String());
+// Obtenez la date et l'heure actuelles
+          DateTime dateActuelle = DateTime.now();
+// Calculez la différence entre la date actuelle et la date d'ajout du produit
+          Duration difference = dateActuelle.difference(index.dateAjout);
+          print(difference.inMinutes);
+
+// Vérifiez si la différence est supérieure à 48 heures (2 jours)
+          if (difference.inHours > 48) {
+            print("Supprimer");
+            deleteFromNewProduct(i.id!, index.id!);
+          } else {
+            newProduits.add(index);
+            print("ajouter");
+          }
+        }
+      }
+      print(newProduits.length);
     } catch (e) {}
-    isProcessing();
+    await isProcessing();
     notifyListeners();
   }
 
+  ////////////Supprimer des produits de newProduits///////////////
+  Future<void> deleteFromNewProduct(String idCategory, String idProduit) async {
+    firebase.deleteFromNewProduct(idCategory, idProduit);
+  }
+
   Future<void> getClients() async {
-    isProcessing();
+    await isProcessing();
     try {
       var result = await firebase.getClients();
       client = result;
-    } catch (e) {}
-    isProcessing();
+    } catch (e) {
+      print(e);
+    }
+    await isProcessing();
     notifyListeners();
   }
 
   Future<bool> insertProduct(ProductModel produit, String id) async {
     try {
-      firebase.insertProduct(produit, id);
+      await firebase.insertProduct(produit, id);
+
       return true;
     } catch (e) {
       print("Probleme provider $e");
       return false;
     }
   }
+
   // Pour utiliser Uint8List
 
   Future<String> uploadImageBytesToFirebase(Uint8List imageBytes) async {
@@ -99,7 +134,7 @@ class GlobalProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void isProcessing() {
+  Future<void> isProcessing() async {
     isLoading = !isLoading;
     notifyListeners();
   }

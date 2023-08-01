@@ -3,7 +3,7 @@ import 'package:e_shopweb/model/user_model.dart';
 
 class Order {
   int id;
-  User user;
+  ClientModel user;
   List<ProductModel> products;
   DateTime orderDate;
   double totalAmount;
