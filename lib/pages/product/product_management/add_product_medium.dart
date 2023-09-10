@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:e_shopweb/helpers/responsiveness.dart';
-import 'package:e_shopweb/model/new_product_model.dart';
+
 import 'package:e_shopweb/model/product_model.dart';
 import 'package:e_shopweb/widgets/text_form_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../../constants/controllers.dart';

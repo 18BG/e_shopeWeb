@@ -4,6 +4,9 @@ import 'package:e_shopweb/model/new_product_model.dart';
 import 'package:e_shopweb/model/product_model.dart';
 
 import '../constants/text_constant.dart';
+import '../model/commande_model.dart';
+import '../model/like_model.dart';
+import '../model/panier_model.dart';
 import '../model/user_model.dart';
 
 class FirebaseManagement {
@@ -105,7 +108,7 @@ class FirebaseManagement {
 ///////////****Supprimer des produits de la table newProduits apres 48h *****/
   Future<void> deleteFromNewProduct(String idCategory, String id) async {
     try {
-      final dataDeleted = await _db
+      await _db
           .collection(categoriCollection)
           .doc(idCategory)
           .collection(newProductCollection)
@@ -118,40 +121,61 @@ class FirebaseManagement {
 
   //function to get All client
   Future<List<ClientModel>> getClients() async {
-    final data = await _db.collection("Client").get();
-    final clients = data.docs.map((e) => ClientModel.fromSnapshot(e)).toList();
-    for (final i in clients) {
-      //get specifics client likes list from firebase
-      final likes = await _db
-          .collection("Client")
-          .doc(i.firebaseToken)
-          .collection("Like")
-          .get();
-      //get specifics client Commandes list from firebase
-      final commandes = await _db
-          .collection("Client")
-          .doc(i.firebaseToken)
-          .collection("Commande")
-          .get();
-      //get specifics client Panniers list from firebase
-      final panniers = await _db
-          .collection("Client")
-          .doc(i.firebaseToken)
-          .collection("Pannier")
-          .get();
-      //add likes list to client likes list
-      // final likesListe =
-      //     likes.docs.map((e) => LikeModel.fromSnapshot(e)).toList();
-      // i.likes = likesListe;
-      // //add Commande list to client Commande list
-      // final commandeListe =
-      //     commandes.docs.map((e) => CommandeModel.fromSnapshot(e)).toList();
-      // i.commandes = commandeListe;
-      // //add Pannier list to client pannier list
-      // final pannierListe =
-      //     panniers.docs.map((e) => PanierModel.fromSnapshot(e)).toList();
-      // i.panniers = pannierListe;
+    List<ClientModel> customers = [];
+    try {
+      final data = await _db.collection(customer).get();
+      final clients =
+          data.docs.map((e) => ClientModel.fromSnapshot(e)).toList();
+      customers = clients;
+      for (final i in clients) {
+        //get specifics client likes list from firebase
+        final likes = await _db
+            .collection("Client")
+            .doc(i.firebaseToken)
+            .collection("Like")
+            .get();
+        //get specifics client Commandes list from firebase
+        final commandes = await _db
+            .collection("Client")
+            .doc(i.firebaseToken)
+            .collection("Commande")
+            .get();
+        //get specifics client Panniers list from firebase
+        final panniers = await _db
+            .collection("Client")
+            .doc(i.firebaseToken)
+            .collection("Pannier")
+            .get();
+        //add likes list to client likes list
+        final likesListe =
+            likes.docs.map((e) => LikeModel.fromSnapshot(e)).toList();
+        i.likes = likesListe;
+        //add Commande list to client Commande list
+        final commandeListe =
+            commandes.docs.map((e) => CommandeModel.fromSnapshot(e)).toList();
+        i.commandes = commandeListe;
+        //add Pannier list to client pannier list
+        final pannierListe =
+            panniers.docs.map((e) => PanierModel.fromSnapshot(e)).toList();
+        i.panniers = pannierListe;
+      }
+    } catch (e) {
+      print(e);
     }
-    return clients;
+    return customers;
+  }
+
+  Future updateCommande(String clientId, String id, String newState) async {
+    try {
+      await _db
+          .collection(customer)
+          .doc(clientId)
+          .collection(cmdCOllection)
+          .doc(id)
+          .update({"Etat": newState});
+    } catch (e) {
+      print("Probleme lors de la mise a jour du comande ");
+      print(e);
+    }
   }
 }

@@ -4,7 +4,6 @@ import 'package:e_shopweb/pages/dashboard/widgets/dashboard_cards_medium.dart';
 import 'package:e_shopweb/pages/dashboard/widgets/dashboard_topcards_large.dart';
 import 'package:e_shopweb/pages/dashboard/widgets/dashboard_topcards_small.dart';
 
-import 'package:e_shopweb/pages/dashboard/widgets/last_orders.dart';
 import 'package:e_shopweb/pages/dashboard/widgets/statistics_section_large.dart';
 import 'package:e_shopweb/pages/dashboard/widgets/statistics_section_small.dart';
 
@@ -13,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../model/data_row_model.dart';
+import '../../widgets/orders_widget.dart';
+import 'widgets/last_order_package.dart';
 
 class DashBoard extends StatelessWidget {
   DashBoard({super.key});
@@ -24,11 +25,13 @@ class DashBoard extends StatelessWidget {
         mail: "bg@gmail.com",
         montant: 120430993,
         status: "Livré",
+        deliveryAddress: "were",
         date: "12/07/2023"),
     DataModele(
         id: 43,
         name: "Aymane DEMBELE",
         mail: "aymane@gmail.com",
+        deliveryAddress: "were",
         montant: 450,
         status: "En attente",
         date: "16/07/2023"),
@@ -36,6 +39,7 @@ class DashBoard extends StatelessWidget {
         id: 21,
         name: "Moussa",
         mail: "fma@gmail.com",
+        deliveryAddress: "were",
         montant: 2700,
         status: "Annulé",
         date: "14/04/2023"),
@@ -43,6 +47,7 @@ class DashBoard extends StatelessWidget {
         id: 21,
         name: "Moussa",
         mail: "fma@gmail.com",
+        deliveryAddress: "were",
         montant: 2700,
         status: "Annulé",
         date: "14/04/2023")
@@ -82,7 +87,7 @@ class DashBoard extends StatelessWidget {
               const StatisticsSectionSmall()
             else
               const StatisticsSectionLarge(),
-            DataTableExample(myData: data),
+            //MyDataTable(myData: data),
             // AvailableDrivers(
             //   myData: data,
             // )

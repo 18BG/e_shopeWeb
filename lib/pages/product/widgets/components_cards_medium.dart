@@ -29,9 +29,12 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
     super.initState();
     provider = Provider.of<GlobalProvider>(context, listen: false);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (provider.categoryList.isEmpty) {
-        provider.getCategoryProvider();
+        await provider.isProcessing();
+        await provider.getCategoryProvider();
+
+        await provider.isProcessing();
       }
     });
   }
@@ -150,7 +153,7 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
                               ? 400
                               : 400 * (nbNewProduit - 1),
                           child: ListView.builder(
-                              physics: BouncingScrollPhysics(
+                              physics: const BouncingScrollPhysics(
                                   parent: AlwaysScrollableScrollPhysics()),
                               itemCount: newProductList.length,
                               itemBuilder: (BuildContext context, i) {
@@ -209,21 +212,26 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 15, right: 15),
-                        child: Card(
-                          color: Colors.white,
-                          child: Center(
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  "assets/images/stock.png",
-                                  fit: BoxFit.contain,
-                                  width: 70,
-                                  height: 90,
-                                ),
-                                const MyText(text: "Stocks & Prix")
-                              ],
+                      InkWell(
+                        onTap: () {
+                          navController.navTo(StockAndPrixScreenRoute);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 15, right: 15),
+                          child: Card(
+                            color: Colors.white,
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/stock.png",
+                                    fit: BoxFit.contain,
+                                    width: 70,
+                                    height: 90,
+                                  ),
+                                  const MyText(text: "Stocks & Prix")
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -401,23 +409,29 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
                         Row(
                           //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              width: 300,
-                              height: 150,
-                              child: Card(
-                                color: Colors.white,
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/stock.png",
-                                        fit: BoxFit.contain,
-                                        width: 70,
-                                        height: 90,
-                                      ),
-                                      const MyText(text: "Stocks & Prix")
-                                    ],
+                            InkWell(
+                              onTap: () {
+                                navController.navTo(StockAndPrixScreenRoute);
+                              },
+                              child: Container(
+                                width: 300,
+                                height: 150,
+                                child: Card(
+                                  color: Colors.white,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/stock.png",
+                                          fit: BoxFit.contain,
+                                          width: 70,
+                                          height: 90,
+                                        ),
+                                        const MyText(text: "Stocks & Prix")
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

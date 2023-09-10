@@ -14,9 +14,12 @@ import 'package:e_shopweb/helpers/firebase_management.dart';
 import 'package:e_shopweb/model/product_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:image_picker/image_picker.dart';
 
 class GlobalProvider with ChangeNotifier {
+  static GlobalProvider instance = Get.find();
   String? firstName;
   String? lastName;
   String? phoneNumber;
@@ -34,6 +37,8 @@ class GlobalProvider with ChangeNotifier {
   String? creation;
   String? token;
   QuerySnapshot? resultat;
+  RxBool isLoadingu = false.obs;
+  List<ClientModel> clientsList = [];
   FirebaseManagement firebase = FirebaseManagement();
 
   Future<void> addCategorieProvider(CategoryModel categoryModel) async {
@@ -48,8 +53,8 @@ class GlobalProvider with ChangeNotifier {
   }
 
   Future<void> getCategoryProvider() async {
-    await isProcessing();
     try {
+      print(isLoading);
       var result = await firebase.getCategorieAndProduc();
       categoryList = result;
       List<NewProductModel> newProduit;
@@ -57,27 +62,49 @@ class GlobalProvider with ChangeNotifier {
       for (var i in categoryList) {
         newProduit = i.listNewProduct!;
         for (var index in newProduit) {
-          print(index.dateAjout.toIso8601String());
-// Obtenez la date et l'heure actuelles
+          // print(index.dateAjout.toIso8601String());
+          // Obtenez la date et l'heure actuelles
           DateTime dateActuelle = DateTime.now();
-// Calculez la différence entre la date actuelle et la date d'ajout du produit
+          // Calculez la différence entre la date actuelle et la date d'ajout du produit
           Duration difference = dateActuelle.difference(index.dateAjout);
-          print(difference.inMinutes);
+          //print(difference.inMinutes);
 
-// Vérifiez si la différence est supérieure à 48 heures (2 jours)
-          if (difference.inHours > 48) {
-            print("Supprimer");
+          // Vérifiez si la différence est supérieure à 48 heures (2 jours)
+          if (difference.inDays > 7) {
+            // print("Supprimer");
             deleteFromNewProduct(i.id!, index.id!);
           } else {
             newProduits.add(index);
-            print("ajouter");
+            //print("ajouter");
           }
         }
       }
-      print(newProduits.length);
+      // print(newProduits.length);
     } catch (e) {}
-    await isProcessing();
+    isLoadingu.value = false;
+
     notifyListeners();
+  }
+
+/////////////*************Get all user and their properties***************/////////////////////
+  Future<void> fetchUsers() async {
+    try {
+      var result = await firebase.getClients();
+      clientsList = result;
+    } catch (e) {
+      var nothing = "";
+      print(e);
+    }
+  }
+
+////////////Update orders///////////////
+  Future<void> updateOrders(String cleintId, String id, String newState) async {
+    try {
+      await firebase.updateCommande(cleintId, id, newState);
+      print("Updated");
+    } catch (e) {
+      print(e);
+    }
   }
 
   ////////////Supprimer des produits de newProduits///////////////

@@ -1,13 +1,15 @@
-class DataModele {
-  int id;
+class DataModele2 {
+  String id;
+  String cmdId;
   String name;
   String mail;
-  double montant;
+  num montant;
   String status;
-  String date;
+  DateTime date;
   String deliveryAddress;
-  DataModele(
+  DataModele2(
       {required this.id,
+      required this.cmdId,
       required this.name,
       required this.mail,
       required this.montant,

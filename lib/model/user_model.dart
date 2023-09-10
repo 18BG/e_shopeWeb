@@ -1,17 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_shopweb/model/panier_model.dart';
 
 import '../constants/text_constant.dart';
+import 'commande_model.dart';
+import 'like_model.dart';
 
 class ClientModel {
-  // "Prénom" -> "user4"
-//"Nom d'utilisateur" -> "user4"
-//"Mot de passe" -> "user4"
-//"Date" -> "2023-06-17T23:04:04.574116"
-//"Numéro de téléphone" -> "user4"
-//"Image" -> ""
-// "Nom" -> "user4"
-
-// "user4" -> "user4"
   String nom;
   String prenom;
   String thisusername;
@@ -20,9 +14,9 @@ class ClientModel {
   String addresse;
   String telephone;
   String thispassword;
-  // List<LikeModel>? likes;
-  // List<CommandeModel>? commandes;
-  // List<PanierModel>? panniers;
+  List<LikeModel>? likes;
+  List<CommandeModel>? commandes;
+  List<PanierModel>? panniers;
   String? firebaseToken;
   String thiscreationDate;
 

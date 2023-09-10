@@ -23,6 +23,9 @@ const CategorieScreenDisplayName = "Catégorie";
 const AddCategorieScreenRoute = "/addcategorie";
 const AddCategorieScreenDislayName = "Ajouter une catégorie";
 
+const StockAndPrixScreenRoute = "/stockAndPrix";
+const StockAndPrixScreenDisplayName = "StockAndPrix";
+
 class MenuItem {
   final String name;
   final String route;
