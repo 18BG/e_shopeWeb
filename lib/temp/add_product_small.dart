@@ -40,7 +40,7 @@ class _AddProductSmallState extends State<AddProductSmall> {
       children: [
         Container(
           height: 1040,
-          decoration: BoxDecoration(color: Colors.blueGrey),
+          decoration: const BoxDecoration(color: Colors.blueGrey),
           margin: EdgeInsets.fromLTRB(
               10, MediaQuery.of(context).padding.top, 10, 10),
           child: Column(
@@ -53,9 +53,9 @@ class _AddProductSmallState extends State<AddProductSmall> {
                       navController.goBack();
                     },
                     child: Container(
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(7),
-                      decoration: BoxDecoration(
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(7),
+                      decoration: const BoxDecoration(
                         color: Colors.teal,
                       ),
                       child: const Row(
@@ -129,7 +129,7 @@ class _AddProductSmallState extends State<AddProductSmall> {
                           height: 5,
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 150, right: 150),
+                          padding: const EdgeInsets.only(left: 150, right: 150),
                           child: TextField(
                             controller: qtcontroller2,
                             decoration: InputDecoration(
@@ -201,8 +201,8 @@ class _AddProductSmallState extends State<AddProductSmall> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                padding: EdgeInsets.all(5),
-                                child: MyText(
+                                padding: const EdgeInsets.all(5),
+                                child: const MyText(
                                   text: "Catégorie : ",
                                   weight: FontWeight.bold,
                                 ),

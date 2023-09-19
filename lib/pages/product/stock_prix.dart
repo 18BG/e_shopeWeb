@@ -1,4 +1,5 @@
 import 'package:e_shopweb/helpers/my_provider.dart';
+import 'package:e_shopweb/helpers/responsiveness.dart';
 import 'package:e_shopweb/model/categorie_model.dart';
 import 'package:e_shopweb/model/product_model.dart';
 import 'package:e_shopweb/widgets/custom_text.dart';
@@ -123,9 +124,12 @@ class _StockAndPrixState extends State<StockAndPrix> {
                                         Spacer(),
                                         Column(
                                           children: [
-                                            const MyText(
+                                            MyText(
                                               text: "Catégorie ",
-                                              size: 17,
+                                              size: (!ResponsiveWidget
+                                                      .isSmallScreen(context))
+                                                  ? 17
+                                                  : 13,
                                               weight: FontWeight.bold,
                                             ),
                                             const SizedBox(
@@ -139,9 +143,12 @@ class _StockAndPrixState extends State<StockAndPrix> {
                                         Spacer(),
                                         Column(
                                           children: [
-                                            const MyText(
+                                            MyText(
                                               text: "Nombre de produits ",
-                                              size: 17,
+                                              size: (!ResponsiveWidget
+                                                      .isSmallScreen(context))
+                                                  ? 17
+                                                  : 13,
                                               weight: FontWeight.w700,
                                             ),
                                             const SizedBox(
@@ -154,10 +161,13 @@ class _StockAndPrixState extends State<StockAndPrix> {
                                         const Spacer(),
                                         Column(
                                           children: [
-                                            const MyText(
+                                            MyText(
                                               text:
-                                                  "Prix total des produits de la catégorie",
-                                              size: 17,
+                                                  "Prix des produits de la catégorie",
+                                              size: (!ResponsiveWidget
+                                                      .isSmallScreen(context))
+                                                  ? 17
+                                                  : 13,
                                               weight: FontWeight.w700,
                                             ),
                                             const SizedBox(
@@ -168,6 +178,13 @@ class _StockAndPrixState extends State<StockAndPrix> {
                                         ),
                                         const Spacer(),
                                       ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Container(
+                                      height: 1.5,
+                                      color: Colors.black,
                                     ),
                                     const SizedBox(
                                       height: 5,

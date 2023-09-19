@@ -69,7 +69,7 @@ class _DashBoardTopCardsSmallScreenState
             children: [
               TopCards(
                 title: "Total des ventes",
-                subtitle: "198,349,900 FCFA",
+                subtitle: totalVente.toString(),
                 value: "7",
                 iconColor: Colors.orange,
                 isActive: false,
@@ -82,7 +82,7 @@ class _DashBoardTopCardsSmallScreenState
               ),
               TopCards(
                 title: "Total des ordres",
-                subtitle: "3290",
+                subtitle: totalOrders.toString(),
                 value: "17",
                 iconColor: Colors.green,
                 isActive: false,
@@ -96,7 +96,7 @@ class _DashBoardTopCardsSmallScreenState
               TopCards(
                 title: "Total des produits",
                 value: "3",
-                subtitle: "158",
+                subtitle: totalProduits.toString(),
                 iconColor: Colors.redAccent,
                 isActive: false,
                 onTap: () {},
