@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:e_shopweb/helpers/my_provider.dart';
 import 'package:e_shopweb/model/categorie_model.dart';
 import 'package:e_shopweb/widgets/custom_text.dart';
@@ -32,7 +29,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
     // TODO: implement initState
     super.initState();
     provider = Provider.of<GlobalProvider>(context, listen: false);
-    //provider.getCategoryProvider();
   }
 
   @override
@@ -216,7 +212,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                     icon: const Icon(Icons.camera)),
                                 IconButton(
                                     onPressed: () {
-                                      provider.pickImage();
+                                      provider.pickImage(false);
                                     },
                                     icon: const Icon(Icons.photo_library))
                               ],

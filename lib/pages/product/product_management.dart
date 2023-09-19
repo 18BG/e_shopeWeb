@@ -1,5 +1,4 @@
 import 'package:e_shopweb/pages/product/widgets/components_cards_medium.dart';
-import 'package:e_shopweb/pages/product/widgets/components_cards_small.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:provider/provider.dart';
@@ -23,10 +22,6 @@ class _ProductManagementState extends State<ProductManagement> {
     // TODO: implement initState
     super.initState();
     provider = Provider.of<GlobalProvider>(context, listen: false);
-    if (provider.categoryList.isEmpty) {
-      provider.getClients();
-      provider.getCategoryProvider();
-    }
   }
 
   @override

@@ -1,4 +1,6 @@
 const RootRoute = "/root";
+const RootDisplayName = "DashBoard";
+
 const DashboardDisplayName = "DashBoard";
 const DashboardRoute = "/dash";
 
@@ -22,6 +24,9 @@ const CategorieScreenDisplayName = "Catégorie";
 
 const AddCategorieScreenRoute = "/addcategorie";
 const AddCategorieScreenDislayName = "Ajouter une catégorie";
+
+const StockAndPrixScreenRoute = "/stockAndPrix";
+const StockAndPrixScreenDisplayName = "StockAndPrix";
 
 class MenuItem {
   final String name;

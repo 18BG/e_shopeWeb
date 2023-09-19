@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 const appName = "Victoire";
 //Fields Name
+const cmdCOllection = "Commande";
+const newProductCollection = "newProduct";
 const productCollection = "Produits";
 const categoriCollection = "Categorie";
 const customer = "Client";
@@ -16,6 +18,7 @@ const profil = "Profil";
 const address = "Adresse";
 const password = "Mot de passe";
 const creationDate = "Date";
+const tacheDate = "Date de la tache";
 const birthDay = "Date de naissances";
 const bePatient = "Veuillez patienter traitement en cours...";
 const bePatient1 = "Veuillez patienter...";

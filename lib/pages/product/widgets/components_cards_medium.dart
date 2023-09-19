@@ -3,10 +3,13 @@ import 'package:e_shopweb/constants/controllers.dart';
 import 'package:e_shopweb/helpers/my_provider.dart';
 import 'package:e_shopweb/helpers/responsiveness.dart';
 import 'package:e_shopweb/model/categorie_model.dart';
+import 'package:e_shopweb/model/new_product_model.dart';
+import 'package:e_shopweb/model/product_model.dart';
 
 import 'package:e_shopweb/pages/product/widgets/top_of_componenets.dart';
 import 'package:e_shopweb/routing/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:image_network/image_network.dart';
 import 'package:provider/provider.dart';
 
 import '../../../widgets/custom_text.dart';
@@ -26,6 +29,15 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
     // TODO: implement initState
     super.initState();
     provider = Provider.of<GlobalProvider>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (provider.categoryList.isEmpty) {
+        // await provider.isProcessing();
+        // await provider.getCategoryProvider();
+
+        // await provider.isProcessing();
+      }
+    });
   }
 
   @override
@@ -34,15 +46,27 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
     return Consumer<GlobalProvider>(
       builder: (context, value, child) {
         List<CategoryModel> listeCategory = value.categoryList;
-        // List<ProductModel> produit = listeCategory.
+        List<ProductModel> produit = [];
         int nbproduit = 0;
         int nbCategorie = 0;
+        double nbNewProduit = 0;
+        List<NewProductModel> newProductList = [];
         for (var i in listeCategory) {
           nbCategorie++;
-          int listpro = i.listProduct!.length;
-          for (var r = 0; r <= listpro; r++) {
-            nbproduit++;
+          if (i.listProduct != null) {
+            produit.addAll(i.listProduct!);
           }
+          //int listpro = i.listProduct!.length;
+          List<NewProductModel> listNewProduct = i.listNewProduct!;
+
+          for (var index in listNewProduct) {
+            nbNewProduit++;
+            newProductList.add(index);
+            print(index.name);
+          }
+        }
+        for (var i in produit) {
+          nbproduit++;
         }
         return (provider.isLoading)
             ? const Column(
@@ -120,79 +144,99 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
                       const SizedBox(
                         height: 15,
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 15, right: 15),
-                        height: 500,
-                        child: Card(
-                          color: Colors.white,
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: [
-                                const MyText(
-                                  text: "Vos derniers produits ajoutés",
-                                  weight: FontWeight.bold,
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Container(
-                                  margin: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.blue)),
-                                  child: Center(
-                                      child: Column(
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/vic17.jpeg",
-                                        fit: BoxFit.contain,
-                                        width: 250,
-                                        height: 300,
-                                      ),
-                                      const MyText(
-                                        text: "Casquette victoire",
-                                        weight: FontWeight.bold,
-                                      ),
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      Container(
-                                          padding: const EdgeInsets.all(3),
-                                          decoration: BoxDecoration(
-                                              color: Colors.green),
-                                          child: const MyText(
-                                            text: "Publié",
-                                            color: Colors.white,
-                                          )),
-                                      const SizedBox(
-                                        height: 10,
-                                      )
-                                    ],
-                                  )),
-                                )
-                              ],
-                            ),
-                          ),
+                      const Card(
+                        child: MyText(
+                          text: "Vos derniers produits ajoutés",
+                          weight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       Container(
-                        margin: const EdgeInsets.only(left: 15, right: 15),
-                        child: Card(
-                          color: Colors.white,
-                          child: Center(
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  "assets/images/stock.png",
-                                  fit: BoxFit.contain,
-                                  width: 70,
-                                  height: 90,
-                                ),
-                                const MyText(text: "Stocks & Prix")
-                              ],
+                          height: (nbNewProduit == 2)
+                              ? 400
+                              : 400 * (nbNewProduit - 1),
+                          child: ListView.builder(
+                              physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()),
+                              itemCount: newProductList.length,
+                              itemBuilder: (BuildContext context, i) {
+                                return Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 15, right: 15),
+                                  height: 400,
+                                  child: Card(
+                                    color: Colors.white,
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.blue)),
+                                            child: Center(
+                                                child: Column(
+                                              children: [
+                                                ImageNetwork(
+                                                  image: newProductList[i]
+                                                      .imageUrl,
+                                                  width: 200,
+                                                  height: 250,
+                                                ),
+                                                MyText(
+                                                  text: newProductList[i].name,
+                                                  weight: FontWeight.bold,
+                                                ),
+                                                const SizedBox(
+                                                  height: 15,
+                                                ),
+                                                Container(
+                                                    padding:
+                                                        const EdgeInsets.all(3),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.green),
+                                                    child: const MyText(
+                                                      text: "Publié",
+                                                      color: Colors.white,
+                                                    )),
+                                                const SizedBox(
+                                                  height: 10,
+                                                )
+                                              ],
+                                            )),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              })),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          navController.navTo(StockAndPrixScreenRoute);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 15, right: 15),
+                          child: Card(
+                            color: Colors.white,
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/stock.png",
+                                    fit: BoxFit.contain,
+                                    width: 70,
+                                    height: 90,
+                                  ),
+                                  const MyText(text: "Stocks & Prix")
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -249,8 +293,8 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
                     ],
                   )
                 : Container(
-                    //Medium An large Screen part//////////////////////////
-                    //Medium An large Screen part//////////////////////////
+                    ////////Medium An large Screen part//////////////////////////
+                    ////////Medium An large Screen part//////////////////////////
                     margin: const EdgeInsets.all(10),
                     height: 1000,
                     child: Column(
@@ -330,7 +374,7 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
                                   height: 15,
                                 ),
                                 Container(
-                                  margin: EdgeInsets.all(10),
+                                  margin: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                       border: Border.all(color: Colors.blue)),
                                   child: Center(
@@ -351,7 +395,7 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
                                       ),
                                       Container(
                                           padding: const EdgeInsets.all(3),
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               color: Colors.green),
                                           child: const MyText(
                                             text: "Publié",
@@ -370,23 +414,29 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
                         Row(
                           //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              width: 300,
-                              height: 150,
-                              child: Card(
-                                color: Colors.white,
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/stock.png",
-                                        fit: BoxFit.contain,
-                                        width: 70,
-                                        height: 90,
-                                      ),
-                                      const MyText(text: "Stocks & Prix")
-                                    ],
+                            InkWell(
+                              onTap: () {
+                                navController.navTo(StockAndPrixScreenRoute);
+                              },
+                              child: Container(
+                                width: 300,
+                                height: 150,
+                                child: Card(
+                                  color: Colors.white,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/stock.png",
+                                          fit: BoxFit.contain,
+                                          width: 70,
+                                          height: 90,
+                                        ),
+                                        const MyText(text: "Stocks & Prix")
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

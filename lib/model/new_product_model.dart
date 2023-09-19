@@ -1,28 +1,29 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shopweb/model/image_model.dart';
 
-class ProductModel {
+class NewProductModel {
   String? id;
   String name;
   double price;
   String description;
   int qteStock;
-  String imageUrl;
   List<ImageModele>? image;
-  bool like;
+  String imageUrl;
+  DateTime dateAjout;
 
-  ProductModel({
-    this.id,
-    this.image,
-    required this.name,
-    required this.price,
-    required this.description,
-    required this.imageUrl,
-    required this.qteStock,
-    required this.like,
-  });
+  NewProductModel(
+      {this.id,
+      this.image,
+      required this.name,
+      required this.price,
+      required this.description,
+      required this.imageUrl,
+      required this.qteStock,
+      required this.dateAjout});
 
-  factory ProductModel.fromSnapshot(
+  factory NewProductModel.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> data) {
     final file = data.data();
     final listProduitData = file!['Images'];
@@ -33,14 +34,16 @@ class ProductModel {
     } else {
       listImages = [];
     }
-    return ProductModel(
+    Timestamp date = file!["dateAjout"];
+    DateTime thisDate = date.toDate();
+    return NewProductModel(
         id: data.id,
         name: file["Nom"],
         price: file["Prix"],
         description: file["Description"],
         imageUrl: file["Image"],
         qteStock: file["qteStock"],
-        like: file['Like'],
+        dateAjout: thisDate,
         image: listImages);
   }
 }

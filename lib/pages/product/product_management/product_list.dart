@@ -28,9 +28,7 @@ class _ProductListState extends State<ProductList> {
     // TODO: implement initState
     super.initState();
     provider = Provider.of<GlobalProvider>(context, listen: false);
-    if (provider.categoryList.isEmpty) {
-      provider.getCategoryProvider();
-    }
+
     //provider.getCategoryProvider();
   }
 
@@ -81,7 +79,7 @@ class _ProductListState extends State<ProductList> {
 
               //const SizedBox(height: 20), // Espacement entre le bouton et la liste
               (value.isLoading)
-                  ? Center(
+                  ? const Center(
                       child: CircularProgressIndicator(),
                     )
                   : (value.categoryList.isNotEmpty)
@@ -221,7 +219,7 @@ class _ProductListState extends State<ProductList> {
                                     icon: const Icon(Icons.camera)),
                                 IconButton(
                                     onPressed: () {
-                                      provider.pickImage();
+                                      provider.pickImage(false);
                                     },
                                     icon: const Icon(Icons.photo_library))
                               ],

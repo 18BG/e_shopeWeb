@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:e_shopweb/helpers/responsiveness.dart';
+
 import 'package:e_shopweb/model/product_model.dart';
 import 'package:e_shopweb/widgets/text_form_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../../constants/controllers.dart';
@@ -33,13 +34,7 @@ class _AddProductMediumState extends State<AddProductMedium> {
 
   CategoryModel? category;
   bool isCategorieSelected = false;
-  List<CategoryModel> categoryList = [
-    CategoryModel(id: "1", name: "Jean", description: "Style", image: 'ee'),
-    CategoryModel(id: "3", name: "Chemise", description: "Style", image: 'ee'),
-    CategoryModel(id: "2", name: "Jupe", description: "Style", image: 'ee'),
-    CategoryModel(id: "7", name: "Robe", description: "a la mode", image: 'ee'),
-    CategoryModel(id: "8", name: "Costume", description: "clear", image: 'ee')
-  ];
+
   File? _pickedImage;
   Uint8List webImage = Uint8List(8);
   static String? emptyCheck(String? value) {
@@ -65,14 +60,14 @@ class _AddProductMediumState extends State<AddProductMedium> {
       builder: (context, value, child) {
         List<CategoryModel> categoryListe = value.categoryList;
         return (value.isLoading)
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : ListView(
                 children: [
                   Container(
                     height:
-                        ResponsiveWidget.isSmallScreen(context) ? 1040 : 1500,
+                        ResponsiveWidget.isSmallScreen(context) ? 1150 : 1600,
                     decoration: BoxDecoration(color: Colors.blueGrey),
                     margin: EdgeInsets.fromLTRB(
                         10, MediaQuery.of(context).padding.top, 10, 10),
@@ -86,9 +81,9 @@ class _AddProductMediumState extends State<AddProductMedium> {
                                 navController.goBack();
                               },
                               child: Container(
-                                margin: EdgeInsets.all(10),
-                                padding: EdgeInsets.all(7),
-                                decoration: BoxDecoration(
+                                margin: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(7),
+                                decoration: const BoxDecoration(
                                   color: Colors.teal,
                                 ),
                                 child: const Row(
@@ -167,7 +162,7 @@ class _AddProductMediumState extends State<AddProductMedium> {
                                       height: 5,
                                     ),
                                     Container(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 150, right: 150),
                                       child: TextFormFields(
                                         f: emptyCheck,
@@ -189,7 +184,7 @@ class _AddProductMediumState extends State<AddProductMedium> {
                                       height: 5,
                                     ),
                                     Container(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 150, right: 150),
                                       child: TextFormFields(
                                         f: emptyCheck,
@@ -252,8 +247,9 @@ class _AddProductMediumState extends State<AddProductMedium> {
                                               ElevatedButton.icon(
                                                   onPressed: () async {
                                                     print("picking . . .");
-                                                    await provider.pickImage();
-                                                    print(webImage);
+                                                    await provider
+                                                        .pickImage(false);
+                                                    // print(webImage);
                                                   },
                                                   icon:
                                                       const Icon(Icons.upload),
@@ -315,6 +311,27 @@ class _AddProductMediumState extends State<AddProductMedium> {
                                     ),
                                     InkWell(
                                       onTap: () async {
+                                        print(
+                                            "picking--------------------------");
+                                        await provider.pickImage(true);
+                                        print("#" * 20);
+                                      },
+                                      child: Container(
+                                        width: 200,
+                                        height: 35,
+                                        decoration: BoxDecoration(
+                                            color: Colors.teal,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: const Text(
+                                            "Choisissez plusieurs images"),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    InkWell(
+                                      onTap: () async {
                                         provider.isProcessing();
                                         try {
                                           if (key.currentState!.validate()) {
@@ -326,6 +343,17 @@ class _AddProductMediumState extends State<AddProductMedium> {
                                             var imUlr = await provider
                                                 .uploadImageBytesToFirebase(
                                                     value.webImage);
+                                            List<String> multiImagesUrl = [];
+
+                                            for (var res
+                                                in value.multiWebImages) {
+                                              var imagesUlrs = await provider
+                                                  .uploadImageBytesToFirebase(
+                                                      res);
+                                              multiImagesUrl.add(imagesUlrs);
+                                            }
+                                            print(
+                                                "The images uploaded ${multiImagesUrl.length}");
                                             ProductModel productModel =
                                                 ProductModel(
                                                     name: name.text,
@@ -333,9 +361,12 @@ class _AddProductMediumState extends State<AddProductMedium> {
                                                     description:
                                                         description.text,
                                                     imageUrl: imUlr,
-                                                    qteStock: qtenStock!);
+                                                    qteStock: qtenStock!,
+                                                    like: false);
                                             await provider.insertProduct(
-                                                productModel, id!);
+                                                productModel,
+                                                id!,
+                                                multiImagesUrl);
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(const SnackBar(
                                                     content: MyText(

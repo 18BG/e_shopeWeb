@@ -23,6 +23,7 @@ class _SideMenuState extends State<SideMenu> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     provider = Provider.of<GlobalProvider>(context, listen: false);
   }
 

@@ -3,7 +3,7 @@ import 'package:e_shopweb/model/user_model.dart';
 
 class Review {
   int id;
-  User user;
+  ClientModel user;
   ProductModel product;
   double rating;
   String comment;
