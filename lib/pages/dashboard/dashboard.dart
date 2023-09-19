@@ -11,47 +11,43 @@ import 'package:e_shopweb/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../model/data_row_model.dart';
-import '../../widgets/orders_widget.dart';
-import 'widgets/last_order_package.dart';
-
 class DashBoard extends StatelessWidget {
   DashBoard({super.key});
 
-  final List<DataModele> data = [
-    DataModele(
-        id: 0,
-        name: "Babry Galedou",
-        mail: "bg@gmail.com",
-        montant: 120430993,
-        status: "Livré",
-        deliveryAddress: "were",
-        date: "12/07/2023"),
-    DataModele(
-        id: 43,
-        name: "Aymane DEMBELE",
-        mail: "aymane@gmail.com",
-        deliveryAddress: "were",
-        montant: 450,
-        status: "En attente",
-        date: "16/07/2023"),
-    DataModele(
-        id: 21,
-        name: "Moussa",
-        mail: "fma@gmail.com",
-        deliveryAddress: "were",
-        montant: 2700,
-        status: "Annulé",
-        date: "14/04/2023"),
-    DataModele(
-        id: 21,
-        name: "Moussa",
-        mail: "fma@gmail.com",
-        deliveryAddress: "were",
-        montant: 2700,
-        status: "Annulé",
-        date: "14/04/2023")
-  ];
+  // final List<DataModele> data = [
+  //   DataModele(
+  //       id: 0,
+  //       name: "Babry Galedou",
+  //       mail: "bg@gmail.com",
+  //       montant: 120430993,
+  //       status: "Livré",
+  //       deliveryAddress: "were",
+  //       date: "12/07/2023"),
+  //   DataModele(
+  //       id: 43,
+  //       name: "Aymane DEMBELE",
+  //       mail: "aymane@gmail.com",
+  //       deliveryAddress: "were",
+  //       montant: 450,
+  //       status: "En attente",
+  //       date: "16/07/2023"),
+  //   DataModele(
+  //       id: 21,
+  //       name: "Moussa",
+  //       mail: "fma@gmail.com",
+  //       deliveryAddress: "were",
+  //       montant: 2700,
+  //       status: "Annulé",
+  //       date: "14/04/2023"),
+  //   DataModele(
+  //       id: 21,
+  //       name: "Moussa",
+  //       mail: "fma@gmail.com",
+  //       deliveryAddress: "were",
+  //       montant: 2700,
+  //       status: "Annulé",
+  //       date: "14/04/2023")
+  // ],
 
   @override
   Widget build(BuildContext context) {

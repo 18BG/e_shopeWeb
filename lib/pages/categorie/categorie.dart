@@ -29,7 +29,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
     // TODO: implement initState
     super.initState();
     provider = Provider.of<GlobalProvider>(context, listen: false);
-    //provider.getCategoryProvider();
   }
 
   @override
@@ -213,7 +212,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                     icon: const Icon(Icons.camera)),
                                 IconButton(
                                     onPressed: () {
-                                      provider.pickImage();
+                                      provider.pickImage(false);
                                     },
                                     icon: const Icon(Icons.photo_library))
                               ],

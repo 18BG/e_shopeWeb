@@ -21,6 +21,7 @@ class HomePage extends StatelessWidget {
       // await provider.isProcessing();
       await provider.getCategoryProvider();
       await provider.fetchUsers();
+      await provider.fetchVente();
       //await provider.isProcessing();
     }
   }

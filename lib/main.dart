@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
     var provider = Provider.of<GlobalProvider>(context, listen: false);
     await provider.getCategoryProvider();
     await provider.fetchUsers();
+    await provider.fetchVente();
   }
 
   @override

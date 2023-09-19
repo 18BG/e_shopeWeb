@@ -4,6 +4,7 @@ import 'package:e_shopweb/helpers/my_provider.dart';
 import 'package:e_shopweb/helpers/responsiveness.dart';
 import 'package:e_shopweb/model/categorie_model.dart';
 import 'package:e_shopweb/model/new_product_model.dart';
+import 'package:e_shopweb/model/product_model.dart';
 
 import 'package:e_shopweb/pages/product/widgets/top_of_componenets.dart';
 import 'package:e_shopweb/routing/routes.dart';
@@ -31,10 +32,10 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (provider.categoryList.isEmpty) {
-        await provider.isProcessing();
-        await provider.getCategoryProvider();
+        // await provider.isProcessing();
+        // await provider.getCategoryProvider();
 
-        await provider.isProcessing();
+        // await provider.isProcessing();
       }
     });
   }
@@ -45,23 +46,27 @@ class _ComponentsCardsMediumState extends State<ComponentsCardsMedium> {
     return Consumer<GlobalProvider>(
       builder: (context, value, child) {
         List<CategoryModel> listeCategory = value.categoryList;
-        // List<ProductModel> produit = listeCategory.
+        List<ProductModel> produit = [];
         int nbproduit = 0;
         int nbCategorie = 0;
-        double nbNewProduit = 1;
+        double nbNewProduit = 0;
         List<NewProductModel> newProductList = [];
         for (var i in listeCategory) {
           nbCategorie++;
-          int listpro = i.listProduct!.length;
-          List<NewProductModel> listNewProduct = i.listNewProduct!;
-          for (var r = 0; r <= listpro; r++) {
-            nbproduit++;
+          if (i.listProduct != null) {
+            produit.addAll(i.listProduct!);
           }
+          //int listpro = i.listProduct!.length;
+          List<NewProductModel> listNewProduct = i.listNewProduct!;
+
           for (var index in listNewProduct) {
             nbNewProduit++;
             newProductList.add(index);
             print(index.name);
           }
+        }
+        for (var i in produit) {
+          nbproduit++;
         }
         return (provider.isLoading)
             ? const Column(

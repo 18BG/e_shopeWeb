@@ -1,6 +1,7 @@
 import 'package:e_shopweb/helpers/my_provider.dart';
 import 'package:e_shopweb/model/commande_model.dart';
 import 'package:e_shopweb/model/data_model2.dart';
+import 'package:e_shopweb/model/vente_model.dart';
 
 import 'package:e_shopweb/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -165,10 +166,25 @@ class _MyDataTableState extends State<MyDataTable> {
                         children: [
                           ElevatedButton(
                             onPressed: () async {
+                              print("#" * 50);
+                              print(widget.myData[index].panier!.length);
+                              List<VenteModel> vente = [];
+                              for (var panier in widget.myData[index].panier!) {
+                                for (var produit in panier.produit) {
+                                  VenteModel this_vente = VenteModel(
+                                      dateVente: DateTime.now(),
+                                      name: produit.nom,
+                                      imageUrl: produit.image,
+                                      description: produit.description,
+                                      price: produit.prix);
+                                  vente.add(this_vente);
+                                }
+                              }
                               await provider.updateOrders(
                                   widget.myData[index].id,
                                   widget.myData[index].cmdId,
-                                  "Livré");
+                                  "Livré",
+                                  vente);
                               updateCmd(index, "Livré");
                             },
                             style: ElevatedButton.styleFrom(
@@ -182,7 +198,8 @@ class _MyDataTableState extends State<MyDataTable> {
                               await provider.updateOrders(
                                   widget.myData[index].id,
                                   widget.myData[index].cmdId,
-                                  "Annulé");
+                                  "Annulé",
+                                  null);
                               updateCmd(index, "Annulé");
                             },
                             style: ElevatedButton.styleFrom(

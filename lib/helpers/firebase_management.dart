@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_shopweb/model/achat_produit_model.dart';
+import 'package:e_shopweb/model/admin_model.dart';
 import 'package:e_shopweb/model/categorie_model.dart';
+import 'package:e_shopweb/model/image_model.dart';
 import 'package:e_shopweb/model/new_product_model.dart';
 import 'package:e_shopweb/model/product_model.dart';
+import 'package:e_shopweb/model/vente_model.dart';
 
 import '../constants/text_constant.dart';
 import '../model/commande_model.dart';
@@ -11,14 +15,21 @@ import '../model/user_model.dart';
 
 class FirebaseManagement {
   final _db = FirebaseFirestore.instance;
-  Future<QuerySnapshot<Object?>> login(
-      String thusername, String thpassword) async {
-    QuerySnapshot query = await _db
-        .collection("Admin")
-        .where(username, isEqualTo: thusername)
-        .where(password, isEqualTo: thpassword)
-        .get();
-    return query;
+
+  ///////Sign User in///////////
+  Future<AdminModele?> login(String mailFromUser, String thpassword) async {
+    try {
+      final query = await _db
+          .collection("admin_info")
+          .where("adminMail", isEqualTo: mailFromUser)
+          .where(password, isEqualTo: thpassword)
+          .get();
+      final admin = query.docs.map((e) => AdminModele.fromSnapshot(e)).first;
+      return admin;
+    } catch (e) {
+      print(e);
+      print("hjsdbchyc");
+    }
   }
 
   Future<void> addCategorie(CategoryModel categoryModel) async {
@@ -33,12 +44,12 @@ class FirebaseManagement {
     }
   }
 
-  Future<void> insertProduct(
+  Future<DocumentReference<Map<String, dynamic>>?> insertProduct(
     ProductModel produit,
     String id,
   ) async {
     try {
-      await _db
+      var reponse = await _db
           .collection(categoriCollection)
           .doc(id)
           .collection(productCollection)
@@ -48,6 +59,7 @@ class FirebaseManagement {
         "Prix": produit.price,
         "Image": produit.imageUrl,
         "qteStock": produit.qteStock,
+        "Like": false
       });
 
       await _db
@@ -62,8 +74,27 @@ class FirebaseManagement {
         "qteStock": produit.qteStock,
         "dateAjout": DateTime.now()
       });
+      return reponse;
     } catch (e) {
       print('Erreur lors de l\'enregistrement des données : $e');
+      return null;
+    }
+  }
+
+  ///Ajout des images pour un produit///
+  Future<void> addImages(
+      String images, String categorieId, String prduitId) async {
+    try {
+      await _db
+          .collection(categoriCollection)
+          .doc(categorieId)
+          .collection(productCollection)
+          .doc(prduitId)
+          .collection("Images")
+          .add({"image": images});
+    } catch (e) {
+      print("My images");
+      print(e);
     }
   }
 
@@ -73,15 +104,14 @@ class FirebaseManagement {
     final categories =
         data.docs.map((e) => CategoryModel.fromSnapshot(e)).toList();
     try {
-      for (final index in categories) {
+      for (var index in categories) {
         //get specifics categorie products list from firebase
         final products = await _db
             .collection(categoriCollection)
             .doc(index.id)
             .collection(productCollection)
             .get();
-        print(index.name);
-        print(index.listProduct);
+
         final productList =
             products.docs.map((e) => ProductModel.fromSnapshot(e)).toList();
         index.listProduct = productList;
@@ -141,11 +171,7 @@ class FirebaseManagement {
             .collection("Commande")
             .get();
         //get specifics client Panniers list from firebase
-        final panniers = await _db
-            .collection("Client")
-            .doc(i.firebaseToken)
-            .collection("Pannier")
-            .get();
+
         //add likes list to client likes list
         final likesListe =
             likes.docs.map((e) => LikeModel.fromSnapshot(e)).toList();
@@ -154,10 +180,38 @@ class FirebaseManagement {
         final commandeListe =
             commandes.docs.map((e) => CommandeModel.fromSnapshot(e)).toList();
         i.commandes = commandeListe;
-        //add Pannier list to client pannier list
-        final pannierListe =
-            panniers.docs.map((e) => PanierModel.fromSnapshot(e)).toList();
-        i.panniers = pannierListe;
+        for (var com in commandeListe) {
+          final panniers = await _db
+              .collection("Client")
+              .doc(i.firebaseToken)
+              .collection("Commande")
+              .doc(com.firebaseToken)
+              .collection("Pannier")
+              .get();
+
+          //add Pannier list to client pannier list
+          final pannierListe =
+              panniers.docs.map((e) => PanierModel.fromSnapshot(e)).toList();
+          i.panniers = pannierListe;
+          com.produit = pannierListe;
+          for (var pan in pannierListe) {
+            final produitAcheter = await _db
+                .collection("Client")
+                .doc(i.firebaseToken)
+                .collection("Commande")
+                .doc(com.firebaseToken)
+                .collection("Pannier")
+                .doc(pan.firebaseToken)
+                .collection("Produits")
+                .get();
+            //add Pannier list to client pannier list
+            final produitslist = produitAcheter.docs
+                .map((e) => AchatProduitModel.fromSnapshot(e))
+                .toList();
+
+            pan.produit = produitslist;
+          }
+        }
       }
     } catch (e) {
       print(e);
@@ -176,6 +230,32 @@ class FirebaseManagement {
     } catch (e) {
       print("Probleme lors de la mise a jour du comande ");
       print(e);
+    }
+  }
+
+  Future<void> addVente(VenteModel venteModel) async {
+    try {
+      await _db.collection("Vente").add({
+        "Nom": venteModel.name,
+        "Description": venteModel.description,
+        "Prix": venteModel.price,
+        "Image": venteModel.imageUrl,
+        "dateVente": venteModel.dateVente
+      });
+    } catch (e) {
+      print(e);
+      print("_________urur");
+    }
+  }
+
+  Future<List<VenteModel>?> getVente() async {
+    try {
+      var result = await _db.collection("Vente").get();
+      var ventes = result.docs.map((e) => VenteModel.fromSnapShot(e)).toList();
+      return ventes;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 }

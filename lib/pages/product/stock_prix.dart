@@ -121,43 +121,52 @@ class _StockAndPrixState extends State<StockAndPrix> {
                                     Row(
                                       children: [
                                         Spacer(),
-                                        const MyText(
-                                          text: "Catégorie : ",
-                                          size: 20,
-                                          weight: FontWeight.bold,
+                                        Column(
+                                          children: [
+                                            const MyText(
+                                              text: "Catégorie ",
+                                              size: 17,
+                                              weight: FontWeight.bold,
+                                            ),
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            MyText(
+                                                text:
+                                                    categoryListe[index].name),
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          width: 6,
-                                        ),
-                                        MyText(text: categoryListe[index].name),
                                         Spacer(),
-                                        const MyText(
-                                          text: "Nombre de produits :",
-                                          size: 20,
-                                          weight: FontWeight.w700,
+                                        Column(
+                                          children: [
+                                            const MyText(
+                                              text: "Nombre de produits ",
+                                              size: 17,
+                                              weight: FontWeight.w700,
+                                            ),
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            MyText(
+                                                text: "$nbProduitPerCategorie"),
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          width: 6,
+                                        const Spacer(),
+                                        Column(
+                                          children: [
+                                            const MyText(
+                                              text:
+                                                  "Prix total des produits de la catégorie",
+                                              size: 17,
+                                              weight: FontWeight.w700,
+                                            ),
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            MyText(text: "$prix"),
+                                          ],
                                         ),
-                                        MyText(text: "$nbProduitPerCategorie"),
-                                        Spacer(),
-                                        const MyText(
-                                          text:
-                                              "Prix total des produits de la catégorie",
-                                          size: 20,
-                                          weight: FontWeight.w700,
-                                        ),
-                                        const SizedBox(
-                                          width: 4,
-                                        ),
-                                        MyText(
-                                            text:
-                                                "${categoryListe[index].name} :"),
-                                        const SizedBox(
-                                          width: 6,
-                                        ),
-                                        MyText(text: "$prix"),
-                                        Spacer(),
+                                        const Spacer(),
                                       ],
                                     ),
                                     const SizedBox(

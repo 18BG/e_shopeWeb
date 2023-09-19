@@ -219,7 +219,7 @@ class _ProductListState extends State<ProductList> {
                                     icon: const Icon(Icons.camera)),
                                 IconButton(
                                     onPressed: () {
-                                      provider.pickImage();
+                                      provider.pickImage(false);
                                     },
                                     icon: const Icon(Icons.photo_library))
                               ],

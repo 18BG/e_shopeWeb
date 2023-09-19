@@ -1,4 +1,6 @@
 const RootRoute = "/root";
+const RootDisplayName = "DashBoard";
+
 const DashboardDisplayName = "DashBoard";
 const DashboardRoute = "/dash";
 

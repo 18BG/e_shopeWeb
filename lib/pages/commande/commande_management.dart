@@ -67,7 +67,7 @@ class _CommandeManagementState extends State<CommandeManagement> {
         Provider.of<GlobalProvider>(context, listen: false);
 
     if (provider.categoryList.isEmpty) {
-      await provider.fetchUsers();
+      //await provider.fetchUsers();
     }
   }
 
@@ -107,18 +107,24 @@ class _CommandeManagementState extends State<CommandeManagement> {
               for (var i in panier) {
                 produitCommande.addAll(i.produit);
               }
+              //recupération des infos des commandes
               List<DataModele2> dataModel = [];
               for (var i in clientList) {
+                //info de celui qui passe la commande
                 String id = i.firebaseToken!;
                 String name = i.nom;
                 String prnom = i.prenom;
                 String mail = i.thismail;
+
                 for (var index in i.commandes!) {
+                  //info du produit commandé
                   String adresse = index.adresseLivraison;
                   DateTime date = index.dateCommande;
                   num montant = index.prix;
                   String statu = index.etatCommande;
-                  DataModele2 dataModele2 = DataModele2(
+
+                  //formatage pour les utiliser sur l'interface
+                  DataModele2 dataModele2 = DataModele2(index.produit,
                       cmdId: index.firebaseToken!,
                       id: id,
                       name: name + " " + prnom,

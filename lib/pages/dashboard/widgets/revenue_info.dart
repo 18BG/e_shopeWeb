@@ -17,7 +17,7 @@ class RevenuInfo extends StatelessWidget {
                   text: "$title \n\n",
                   style: TextStyle(color: lightGrey, fontSize: 16)),
               TextSpan(
-                  text: "\$ $amount",
+                  text: "$amount FCFA",
                   style: const TextStyle(
                       fontSize: 24, fontWeight: FontWeight.bold))
             ])));
